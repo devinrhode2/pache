@@ -10,5 +10,5 @@ Run it:
 pache site-directory 2000
 ```
 
-Thanks to help from friends on StackOverflow
+Thanks to friends on StackOverflow
 http://stackoverflow.com/questions/13695391/start-an-apache-server-in-any-directory-from-command-line#15936279
