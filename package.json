@@ -1,0 +1,23 @@
+{
+  "name": "pache",
+  "version": "0.0.1",
+  "description": "Easily start apache from command line (in any directory)",
+  "main": "pache",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/devinrhode2/pache.git"
+  },
+  "keywords": [
+    "apache",
+    "cli",
+    "static-files",
+    "static-site",
+    "staticfilehandler",
+    "simplehttpserver"
+  ],
+  "author": "Devin Rhode",
+  "license": "MIT"
+}

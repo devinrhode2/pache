@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+var dir = (process.argv[2] ? require('path').resolve(process.argv[2]) : process.cwd());
+var port = process.argv[3] || 3000;
+
+var parseError = false;
+try {
+  parseInt(port, 10);
+} catch (e) {
+  parseError = true;
+}
+
+var port = parseInt(port, 10);
+
+if (parseError || port == null || typeof port !== 'number' || port < 0 || port > 70000) {
+  throw 'the second command line arg, if present, should be a port number.\n Example: pache . 2000';
+}
+
+console.log('Starting apache at ' + dir + ' (resolved from ' + process.argv[2] + ')\nopen http://localhost.:' + port);
+
+var httpd = require('child_process').exec('\
+sudo httpd -k start \
+ -c "DocumentRoot '+ dir +'" \
+ -c "Listen ' + port + '" \
+ -c "ServerName localhost" \
+ -c "AccessFileName .htaccess" \
+ -c "ErrorLog /dev/stdout" \
+ -c "CustomLog /dev/stdout common" \
+ -e info \
+ -D FOREGROUND');
+
+httpd.stdout.on('data', function httpdStdout(data) {
+  console.log(data);
+});
+
+httpd.stderr.on('data', function httpdStderr(data) {
+  console.log(data);
+});
+
+console.log()
+
+httpd.on('close', function httpdClose(code) {
+  console.log('httpd process exited with code ' + code);
+  
+  console.log(httpd);
+});
+
+/*
+require('child_process').exec(
+'sudo httpd -k start \
+ -c "DocumentRoot '+ process.cwd() +'" \
+ -c "Listen 2000" \
+ -c "ServerName localhost" \
+ -c "AccessFileName .htaccess" \
+ -c "ErrorLog /dev/stdout" \
+ -c "CustomLog /dev/stdout common" \
+ -e info \
+ -D FOREGROUND', function (error, stdout, stderr) {
+  console.log(stdout);
+  console.log(stderr);
+  if (error !== null) {
+    console.log('exec error: ' + error);
+  }
+});
+*/
