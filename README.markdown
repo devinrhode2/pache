@@ -1,6 +1,4 @@
-# `pache`
-
-Start apache in any directory from command line
+## Start apache in any directory from command line
 
 Install with npm - download with node here: http://nodejs.org/
 
