@@ -1,6 +1,6 @@
 {
   "name": "pache",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Easily start apache from command line (in any directory)",
   "main": "pache",
   "scripts": {
@@ -21,7 +21,7 @@
   ],
   "preferGlobal": "true",
   "bin": {
-    "pache" : "pache"
+    "pache": "pache"
   },
   "author": "Devin Rhode",
   "license": "MIT"
