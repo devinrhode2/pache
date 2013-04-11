@@ -1,7 +1,6 @@
 ## Start apache in any directory from command line
 
-Install with npm - download with node here: http://nodejs.org/
-
+Install with npm - which comes with node here: http://nodejs.org/
 ```
 sudo npm install pache -g
 ```
