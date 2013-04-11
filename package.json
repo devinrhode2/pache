@@ -16,8 +16,13 @@
     "static-files",
     "static-site",
     "staticfilehandler",
-    "simplehttpserver"
+    "simplehttpserver",
+    "pache"
   ],
+  "preferGlobal": "true",
+  "bin": {
+    "pache" : "pache"
+  },
   "author": "Devin Rhode",
   "license": "MIT"
 }

@@ -16,18 +16,28 @@ if (parseError || port == null || typeof port !== 'number' || port < 0 || port >
   throw 'the second command line arg, if present, should be a port number.\n Example: pache . 2000';
 }
 
-console.log('Starting apache at ' + dir + ' (resolved from ' + process.argv[2] + ')\nopen http://localhost.:' + port);
+console.log('pache ' + (process.argv[2] || '.') + ' ' + port);
+console.log(
+  'Running apache at ' + dir + ' (' + process.argv[2] + ') on port ' + port
+);
 
-var httpd = require('child_process').exec('\
-sudo httpd -k start \
- -c "DocumentRoot '+ dir +'" \
- -c "Listen ' + port + '" \
- -c "ServerName localhost" \
- -c "AccessFileName .htaccess" \
- -c "ErrorLog /dev/stdout" \
- -c "CustomLog /dev/stdout common" \
- -e info \
- -D FOREGROUND');
+//full httpd docs: http://httpd.apache.org/docs/2.4/programs/httpd.html
+var httpd = require('child_process').exec(
+'sudo httpd -k start'+ /* Without sudo it fails:
+                         (13)Permission denied: make_sock: could not bind to address [::]:80
+                         (13)Permission denied: make_sock: could not bind to address 0.0.0.0:80
+                         no listening sockets available, shutting down
+                         Unable to open logs */
+' -c "DocumentRoot ' + dir  + '"' +
+' -c "Listen '       + port + '"' +
+' -c "AccessFileName .htaccess"'     + 
+' -c "ErrorLog /dev/stdout"'         + // send logs to terminal
+' -c "CustomLog /dev/stdout common"' +
+' -e info'                           + // Set LogLevel http://httpd.apache.org/docs/2.4/mod/core.html#loglevel
+
+// Without this.. "httpd: Could not reliably determine the server's fully qualified domain name, using MBP018-RWC.local for ServerName"
+' -c "ServerName localhost"' +
+' -D FOREGROUND');
 
 httpd.stdout.on('data', function httpdStdout(data) {
   console.log(data);
@@ -37,29 +47,6 @@ httpd.stderr.on('data', function httpdStderr(data) {
   console.log(data);
 });
 
-console.log()
-
 httpd.on('close', function httpdClose(code) {
   console.log('httpd process exited with code ' + code);
-  
-  console.log(httpd);
 });
-
-/*
-require('child_process').exec(
-'sudo httpd -k start \
- -c "DocumentRoot '+ process.cwd() +'" \
- -c "Listen 2000" \
- -c "ServerName localhost" \
- -c "AccessFileName .htaccess" \
- -c "ErrorLog /dev/stdout" \
- -c "CustomLog /dev/stdout common" \
- -e info \
- -D FOREGROUND', function (error, stdout, stderr) {
-  console.log(stdout);
-  console.log(stderr);
-  if (error !== null) {
-    console.log('exec error: ' + error);
-  }
-});
-*/
