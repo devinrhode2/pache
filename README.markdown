@@ -73,3 +73,7 @@ Block all caching: Add a .htaccess file at the root of your apache server and pa
 
 </IfModule>
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/devinrhode2/pache/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
