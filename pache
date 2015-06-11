@@ -2,6 +2,7 @@
 
 var dir = (process.argv[2] ? require('path').resolve(process.argv[2]) : process.cwd());
 var port = process.argv[3] || 3000;
+var htaccess = (process.argv[4]=="no_htaccess" ? false : true);
 
 var parseError = false;
 try {
@@ -30,7 +31,7 @@ var httpd = require('child_process').exec(
                          Unable to open logs */
 ' -c "DocumentRoot ' + dir  + '"' +
 ' -c "Listen '       + port + '"' +
-' -c "AccessFileName .htaccess"'     + 
+(htaccess?' -c "AccessFileName .htaccess"':'')     + 
 ' -c "ErrorLog /dev/stdout"'         + // send logs to terminal
 ' -c "CustomLog /dev/stdout common"' +
 ' -e info'                           + // Set LogLevel http://httpd.apache.org/docs/2.4/mod/core.html#loglevel
