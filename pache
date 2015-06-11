@@ -14,7 +14,9 @@ if (parseError || port == null || typeof port !== 'number' || port < 0 || port >
   throw 'the second command line arg, if present, should be a port number.\n Example: pache . 2000';
 }
 
-console.log('pache ' + (process.argv[2] || '.') + ' ' + port);
+if (!process.argv[2]) process.argv[2] = '.'
+
+console.log('pache ' + process.argv[2] + ' ' + port);
 console.log(
   'Running apache at ' + dir + ' (' + process.argv[2] + ') on port ' + port
 );
